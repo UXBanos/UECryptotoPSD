@@ -36,8 +36,6 @@ turns it into images a compositor can actually use.
 The colored Object ID pass looks like a flat shaded version of your scene where each
 mesh is a solid color. One magic wand click selects a whole object.
 
-_(Add your own screenshots here.)_
-
 ## Requirements
 
 - Python 3.9 to 3.13 (64 bit). **OpenEXR has no wheels for Python 3.14+ yet**, so
@@ -67,34 +65,12 @@ python crypto_extractor.py input.exr --no-crypto         # skip per object matte
 python crypto_extractor.py input.exr --no-passes         # only cryptomatte output
 ```
 
-## Build a standalone .exe (Windows)
-
-You do not need Python to *run* the built executable, only to build it.
-
-1. Put `crypto_extractor.py`, `requirements.txt` and `build.bat` in one folder.
-2. Double click `build.bat`. It creates an isolated environment with Python 3.13,
-   installs the dependencies, and runs PyInstaller.
-3. The result is `dist\CryptomatteExtractor.exe`. It is self contained: copy it
-   anywhere and run it with a double click.
-
-You can also build manually:
-
-```
-pip install pyinstaller
-pyinstaller --onefile --windowed --name CryptomatteExtractor crypto_extractor.py
-```
-
-Notes on the executable: it runs on Windows 10 or newer (64 bit). Because it is a
-onefile build it takes a few seconds to start the first time. Unsigned PyInstaller
-executables may trigger a SmartScreen warning; that is the lack of a code signing
-certificate, not a problem with the program.
-
 ## Unreal Engine setup
 
 To get a Cryptomatte EXR out of Unreal:
 
 1. Use the **Movie Render Queue**.
-2. Add a **Deferred Rendering** pass and enable **Cryptomatte** (Object, Material,
+2. Add a **Deferred Rendering** pass and enable **ObjectIDs** (Object, Material,
    or Asset, depending on what you want to select by).
 3. Set the output format to **EXR** (multilayer, float).
 4. Render, then drop the resulting `.exr` into CryptomatteExtractor.
