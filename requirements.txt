@@ -1,0 +1,3 @@
+numpy>=1.24
+OpenEXR>=3.2
+PySide6>=6.5
