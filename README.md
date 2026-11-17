@@ -90,6 +90,9 @@ matte and use it as a layer mask.
 
 ## How the decoding works
 
+- Multipart EXRs (UE 5.8+ MRQ writes each pass as its own part: `FinalImage`,
+  `PathTraced_*`, `<name>_ObjectID00/01/...`) are merged, so all passes and
+  cryptomatte ranks are found.
 - Cryptomatte metadata is read from the EXR header
   (`cryptomatte/<hash>/manifest`) using the modern OpenEXR API, which preserves
   those custom attributes.

@@ -36,6 +36,7 @@ import colorsys
 import argparse
 
 import numpy as np
+import Imath  # noqa: F401  OpenEXR's C module imports it; explicit so PyInstaller bundles it
 import OpenEXR
 
 
@@ -90,19 +91,25 @@ def find_cryptomatte_layers(header):
 # --------------------------------------------------------------------------- #
 
 def read_exr(path):
-    """Return (header, channels_dict, width, height)."""
+    """Return (header, channels_dict, width, height).
+
+    Multipart EXRs (UE 5.8 MRQ writes one part per pass: FinalImage,
+    PathTraced_*, <name>_ObjectID00/01/...) are merged into one dict.
+    Channel names are already fully qualified per part.
+    """
     f = OpenEXR.File(path, separate_channels=True)
-    part = f.parts[0]
-    header = dict(part.header)
+    header = {}
     channels = {}
     height = width = 0
-    for cname, chan in part.channels.items():
-        arr = np.asarray(chan.pixels)
-        if arr.ndim == 3:
-            arr = arr[..., 0]
-        arr = arr.astype(np.float32, copy=False)
-        height, width = arr.shape
-        channels[cname] = arr
+    for part in f.parts:
+        header.update(part.header)
+        for cname, chan in part.channels.items():
+            arr = np.asarray(chan.pixels)
+            if arr.ndim == 3:
+                arr = arr[..., 0]
+            arr = arr.astype(np.float32, copy=False)
+            height, width = arr.shape
+            channels[cname] = arr
     return header, channels, width, height
 
 
