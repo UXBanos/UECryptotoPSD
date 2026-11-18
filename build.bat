@@ -40,7 +40,7 @@ echo.
 echo === [5/5] Building the executable with PyInstaller ===
 python -m pip install pyinstaller
 if errorlevel 1 goto FAIL
-pyinstaller --noconfirm --onefile --windowed --name CryptomatteExtractor crypto_extractor.py
+pyinstaller --noconfirm --onefile --windowed --name CryptomatteExtractor --icon icon.ico --add-data "icon.ico;." crypto_extractor.py
 if errorlevel 1 goto FAIL
 
 echo.

@@ -65,6 +65,25 @@ python crypto_extractor.py input.exr --no-crypto         # skip per object matte
 python crypto_extractor.py input.exr --no-passes         # only cryptomatte output
 ```
 
+## Install on Windows
+
+Run `build.bat`, then:
+
+```
+powershell -ExecutionPolicy Bypass -File install.ps1
+```
+
+This copies the exe to `%LOCALAPPDATA%\Programs\CryptomatteExtractor` and adds a
+Start menu shortcut. Search "Cryptomatte Extractor" in Start, right-click, and
+pick Pin to Start or Pin to taskbar.
+
+To uninstall, go to Settings > Apps > Installed apps > Cryptomatte Extractor >
+Uninstall, or run:
+
+```
+powershell -ExecutionPolicy Bypass -File uninstall.ps1
+```
+
 ## Unreal Engine setup
 
 To get a Cryptomatte EXR out of Unreal:

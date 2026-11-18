@@ -305,7 +305,7 @@ def process(path, out_dir, do_passes=True, do_crypto=True, do_objectid=False,
 # --------------------------------------------------------------------------- #
 
 def run_gui():
-    from PySide6 import QtWidgets, QtCore
+    from PySide6 import QtWidgets, QtCore, QtGui
 
     class Worker(QtCore.QThread):
         msg = QtCore.Signal(str)
@@ -468,6 +468,9 @@ def run_gui():
             QtWidgets.QMessageBox.critical(self, "Error", err)
 
     app = QtWidgets.QApplication(sys.argv)
+    # icon.ico is bundled next to the script, or in _MEIPASS inside the exe
+    base = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+    app.setWindowIcon(QtGui.QIcon(os.path.join(base, "icon.ico")))
     win = Win()
     win.show()
     sys.exit(app.exec())
